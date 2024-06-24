@@ -8,6 +8,7 @@ public class ProvidersService(IProvidersHttpService _providersHttpService, IMemo
 
     // TODO: в реальном проекте я бы вынес это в appSettings.json
     private readonly TimeSpan _cacheExp = TimeSpan.FromMinutes(30);
+    private const string _searchResource = "ping";
 
     // TODO: по идее, если время кэша истекло, то нужно сделать еще один http запрос
     public async Task<SearchResponse> SearchFromCache(SearchRequest request, CancellationToken cancellationToken)
@@ -56,8 +57,13 @@ public class ProvidersService(IProvidersHttpService _providersHttpService, IMemo
         };
     }
 
-    public async Task<bool[]> IsAvailable(IEnumerable<string> urls, CancellationToken cancellationToken)
+    public async Task<bool[]> IsAvailable(CancellationToken cancellationToken)
     {
+        var urls = new[]
+        {
+            $"{ProvidersData.UrlProviderOne}/{_searchResource}", 
+            $"{ProvidersData.UrlProviderTwo}/{_searchResource}"
+        };
         var tasks = urls.Select(url => _providersHttpService.CheckProviderAvailability(url, cancellationToken));
         return await Task.WhenAll(tasks);
     }

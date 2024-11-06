@@ -41,8 +41,7 @@ public class ProvidersHttpHttpService(IMapper _mapper) : IProvidersHttpService
         string providerBaseUrl,
         SearchRequest searchRequest, 
         CancellationToken cancellationToken
-    )
-        where TRequest : class
+    ) where TRequest : class
     {
         var client = new RestClient(providerBaseUrl);
         var request = new RestRequest(_searchResource, Method.Post);

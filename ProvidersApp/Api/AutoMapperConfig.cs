@@ -25,17 +25,12 @@ public class AutoMapperConfig : Profile
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.TimeLimit, opt => opt.MapFrom(src => src.TimeLimit));
         
-        
-        
-        
-        
         CreateMap<SearchRequest, ProviderTwoSearchRequest>()
             .ForMember(dest => dest.Departure, opt => opt.MapFrom(src => src.Origin))
             .ForMember(dest => dest.Arrival, opt => opt.MapFrom(src => src.Destination))
             .ForMember(dest => dest.DepartureDate, opt => opt.MapFrom(src => src.OriginDateTime))
             .ForMember(dest => dest.MinTimeLimit, opt => opt.MapFrom(src => src.Filters != null ? src.Filters.MinTimeLimit : (DateTime?)null));
      
-        
         CreateMap<ProviderTwoRoute, Route>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
             .ForMember(dest => dest.Origin, opt => opt.MapFrom(src => src.Departure.Point))
